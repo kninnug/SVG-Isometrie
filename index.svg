@@ -1,0 +1,232 @@
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"> 
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" onload="init()"> 
+	<script type="text/javascript"> 
+		<![CDATA[
+			var rects = new Array();
+			var grid;
+			var gridX = 350;
+			var gridY = 50;
+			var gridRotate = 45;
+			var gridScale = [1.25, 0.75];
+			var gridTransform = "translate("+gridX+", "+gridY+") scale("+gridScale[0]+", "+gridScale[1]+") rotate("+gridRotate+")";
+			var fieldSize = 20;
+			var fieldHeight = 5;
+			var elmInfo;
+			var xmlns="http://www.w3.org/2000/svg";
+			var colors = ["GreenYellow", "ForestGreen", "MediumTurquoise", "#302d2d"];
+			var fields = 
+				[[ 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
+				 [ 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1],
+				 [ 1, 1, 1, 2, 2, 2, 2, 0, 1, 1, 1],
+				 [ 1, 1, 1, 1, 0, 0, 2, 0, 0, 1, 1],
+				 [ 1, 1, 1, 1, 1, 0, 2, 0, 0, 1, 1],
+				 [ 1, 1, 1, 1, 1, 0, 2, 2, 0, 0, 1],
+				 [ 1, 1, 1, 1, 1, 0, 0, 2, 2, 0, 1],
+				 [ 1, 1, 1, 1, 1, 0, 0, 2, 0, 0, 1],
+				 [ 1, 1, 1, 1, 1, 0, 2, 2, 0, 1, 1],
+				 [ 1, 1, 1, 1, 1, 0, 2, 0, 0, 1, 1],
+				 [ 1, 1, 1, 1, 1, 0, 2, 0, 0, 1, 1],
+				 [ 1, 1, 1, 1, 1, 0, 2, 2, 0, 0, 1],
+				 [ 1, 1, 1, 1, 1, 0, 0, 2, 2, 0, 1],
+				 [ 1, 1, 1, 1, 1, 0, 0, 2, 0, 0, 1],
+				 [ 1, 1, 1, 1, 1, 0, 2, 2, 0, 1, 1],
+				 [ 1, 1, 1, 1, 1, 0, 2, 0, 0, 1, 1],
+				 [ 1, 1, 1, 1, 1, 0, 2, 0, 0, 1, 1],
+				 [ 1, 1, 1, 1, 1, 0, 2, 2, 0, 0, 1],
+				 [ 1, 1, 1, 1, 1, 0, 0, 2, 2, 0, 1],
+				 [ 1, 1, 1, 1, 1, 1, 0, 0, 2, 0, 1],
+				 [ 1, 1, 1, 1, 1, 1, 1, 0, 2, 0, 1],
+				 [ 1, 1, 1, 1, 1, 1, 1, 0, 2, 0, 1]];
+			var heights = 
+				[[ 3, 4, 5, 5, 1, 1, 0, 1, 1, 1, 2, 2],
+				 [ 4, 5, 6, 5, 1, 0, 0, 0, 1, 1, 1, 2],
+				 [ 5, 6, 5, 4, 1, 0, 0, 0, 1, 1, 1, 1],
+				 [ 4, 5, 5, 4, 1, 0, 0, 0, 0, 1, 1, 1],
+				 [ 4, 5, 5, 4, 1, 0, 0, 0, 0, 1, 1, 1],
+				 [ 1, 4, 4, 1, 1, 0, 0, 0, 0, 0, 1, 1],
+				 [ 1, 3, 3, 1, 1, 0, 0, 0, 0, 0, 1, 1],
+				 [ 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1],
+				 [ 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1],
+				 [ 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1],
+				 [ 1, 1, 1, 1, 1, 0, 0, -1, -1, 1, 1, 1],
+				 [ 1, 1, 1, 1, 1, 0, 0, -1, -1, 0, 1, 1],
+				 [ 1, 1, 1, 1, 1, 0, 0, -1, -1, 0, 1, 1],
+				 [ 1, 1, 1, 1, 1, 0, 0, -1, -1, 0, 1, 1],
+				 [ 1, 1, 1, 1, 1, 0, 0, -1, -1, 1, 1, 1],
+				 [ 1, 1, 1, 1, 1, 0, 0, -1, -1, 1, 1, 1],
+				 [ 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1],
+				 [ 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1],
+				 [ 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1],
+				 [ 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1],
+				 [ 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1],
+				 [ 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1],
+				 [ 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1]];
+			
+			function mouseOver(event){
+				elm = event.target;
+				fill = elm.getAttribute("fill");
+				elm.setAttribute("prevColor", fill);
+				elm.setAttribute("fill", "cyan");
+				var x = elm.getAttribute("data:x");
+				var y = elm.getAttribute("data:y");
+				elmInfo.textContent = x+"x"+y+"x"+heights[x][y];
+			}
+			function mouseOut(event){
+				elm = event.target;
+				elm.setAttribute("fill", elm.getAttribute("prevColor"));
+			}
+			function mouseClick(event){
+				elm = event.target;
+				h = 1;
+				if(event.ctrlKey || event.shiftKey) h = -1;
+				changeHeight(elm, h);
+			}
+			function colorDot(x, y, color){
+				dot = document.createElementNS(xmlns, "circle");
+				dot.setAttribute("cx", x);
+				dot.setAttribute("cy", y);
+				dot.setAttribute("r", 2);
+				dot.setAttribute("fill", color);
+				grid.appendChild(dot);
+			}
+			function changeHeight(elm, h){
+				var x = parseInt(elm.getAttribute("data:x"));
+				var y = parseInt(elm.getAttribute("data:y"));
+				grid.removeChild(elm);
+				heights[x][y] += h;
+				addField([x, y], fieldSize, fieldHeight);
+				if(x > 0){
+					grid.removeChild(document.getElementById("box-"+(x-1)+"-"+(y)));
+					addField([x-1, y], fieldSize, fieldHeight);
+				}
+				if(y > 0){
+					grid.removeChild(document.getElementById("box-"+(x)+"-"+(y-1)*1));
+					addField([x, (y-1)], fieldSize, fieldHeight);
+					console.log("box-"+(x)+"-"+(y-1)*1);
+				}
+				if(x > 0 && y > 0){
+					grid.removeChild(document.getElementById("box-"+(x-1)+"-"+(y-1)));
+					addField([x-1, y-1], fieldSize, fieldHeight);
+				}
+			}
+			function addField(id, size, height, color){
+				var field = document.createElementNS(xmlns, "polygon");
+				grid.appendChild(field);
+				var x = id[0];
+				var y = id[1];
+				field.setAttribute("id", "box-"+x+"-"+y);
+				field.setAttribute("data:x", x);
+				field.setAttribute("data:y", y);
+				posX = x*size;
+				posY = y*size;
+				if(color == undefined) color = colors[fields[x][y]];
+				topLeft = (posX-heights[x][y]*height)+","+(posY-heights[x][y]*height);
+				topRight = (posX+size-heights[x+1][y]*height)+","+(posY-heights[x+1][y]*height);
+				bottomRight = (posX+size-heights[x+1][y+1]*height)+","+(posY+size-heights[x+1][y+1]*height);
+				bottomLeft = (posX-heights[x][y+1]*height)+","+(posY+size-heights[x][y+1]*height);
+				field.setAttribute("points", topLeft+" "+topRight+" "+bottomRight+" "+bottomLeft);
+				field.setAttribute("fill", color);
+				field.setAttribute("stroke", "rgb(77, 161, 76)");
+				field.onmouseover = mouseOver;
+				field.onmouseout = mouseOut;
+				field.onclick = mouseClick;
+				return field;
+			}
+			function setGridTransform(){
+				gridTransform = "translate("+gridX+", "+gridY+") scale("+gridScale[0]+", "+gridScale[1]+") rotate("+gridRotate+")";
+				grid.setAttribute("transform", gridTransform);
+			}
+			function translateGrid(x, y){
+				gridX += x;
+				gridY += y;
+				setGridTransform();
+			}
+			function scaleGrid(x, y){
+				gridScale[0] *= x;
+				gridScale[1] *= y;
+				setGridTransform();
+			}
+			function rotateGrid(a){
+				gridRotate += a;
+				setGridTransform();
+			}
+			function keyPress(event){
+				if(event.ctrlKey){
+					switch(event.keyCode){
+						case 37: // left-arrow
+							rotateGrid(10);
+						break; 
+						case 38: // up-arrow
+							scaleGrid(1, 0.75);
+						break; 
+						case 39: // right-arrow
+							rotateGrid(-10);
+						break; 
+						case 40: // down-arrow
+							scaleGrid(1, 1.25);
+						break; 
+					}
+					return;
+				}
+				if(event.shiftKey){
+					switch(event.keyCode){
+						case 38: // up-arrow
+							scaleGrid(1.25, 1.25);
+						break; 
+						case 40: // down-arrow
+							scaleGrid(0.75, 0.75);
+						break; 
+					}
+					return;
+				}
+				switch(event.keyCode){
+					case 37: // left-arrow
+						translateGrid(-10, 0);
+					break; 
+					case 38: // up-arrow
+						translateGrid(0, -10);
+					break; 
+					case 39: // right-arrow
+						translateGrid(10, 0);
+					break; 
+					case 40: // down-arrow
+						translateGrid(0, 10);
+					break; 
+				}
+				return;
+			}
+			function init(event){
+				amount = fields.length;
+				grid = document.createElementNS(xmlns, "g");
+				grid.setAttribute("id", "grid");
+				grid.setAttribute("transform", gridTransform);
+				elmInfo = document.getElementById("elmInfo");
+				document.getElementsByTagName("svg")[0].appendChild(grid);
+				for(j = 0; j < fields.length; j++){
+					for(i = 0; i < fields[j].length; i++){
+						addField([j, i], fieldSize, fieldHeight);
+					}
+				}
+				document.onkeypress = top.document.onkeypress = keyPress;
+				document.oncontextmenu = top.document.oncontextmenu = function(){ return false; };
+			}
+		]]>
+	</script> 
+	<g id="text" font-family="verdana" font-size="12px"> 
+		<text id="elmInfo" x="90%" y="50" font-size="14px">Field-info</text> 
+		<text x="20" y="20"> 
+			Use arrow keys to move the grid. Ctrl+Arrow-left/right to rotate the grid. 
+		</text> 
+		<text x="20" y="40"> 
+			Ctrl+Arrow-up/down to tilt the grid. Shift+Arrow-up/down to zoom in on the grid.
+		</text> 
+		<text x="20" y="60"> 
+			Click a field to elevate it, ctrl/shift+click to de-elevate it.
+		</text> 
+		<a xlink:href="http://harmen.no-ip.org/javascripts/3d/"> 
+			<text x="20" y="95%" style="fill: blue"> 
+				Thanks to Harmen for his beautiful grid + code: http://harmen.no-ip.org/javascripts/3d/
+			</text> 
+		</a> 
+	</g> 
+</svg>
