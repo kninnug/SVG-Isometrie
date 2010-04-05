@@ -152,7 +152,8 @@
 			}
 			function keyPress(event){
 				if(event.ctrlKey){
-					switch(event.keyCode){
+					var code = event.keyCode || event.which;
+					switch(code){
 						case 37: // left-arrow
 							rotateGrid(10);
 						break; 
