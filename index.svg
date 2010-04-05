@@ -170,7 +170,8 @@
 					return;
 				}
 				if(event.shiftKey){
-					switch(event.keyCode){
+					var code = event.keyCode || event.which;
+					switch(code){
 						case 38: // up-arrow
 							scaleGrid(1.25, 1.25);
 						break; 
@@ -180,7 +181,8 @@
 					}
 					return;
 				}
-				switch(event.keyCode){
+				var code = event.keyCode || event.which;
+				switch(code){
 					case 37: // left-arrow
 						translateGrid(-10, 0);
 					break; 
