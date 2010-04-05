@@ -212,7 +212,7 @@
 			}
 		]]>
 	</script> 
-	<g id="text" font-family="tahoma" font-size="12px"> 
+	<g id="text" font-family="Verdana" font-size="12px"> 
 		<text id="elmInfo" x="90%" y="50" font-size="14px">Field-info</text> 
 		<text x="20" y="20"> 
 			Use arrow keys to move the grid. Ctrl+Arrow-left/right to rotate the grid. 
